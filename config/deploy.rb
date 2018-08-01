@@ -2,9 +2,10 @@
 lock "~> 3.11.0"
 
 #在部署期间，列出的文件夹将从应用程序的共享文件夹中链接到每个发布目录。
-append :linked_dirs, ['log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads']
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 #在部署期间，列出的文件将从应用程序的共享文件夹中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件。
-append :linked_files, ['config/database.yml','config/secrets.yml']
+#注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml
+append :linked_files, 'config/database.yml','config/redis.yml', 'config/config.yml', 'config/master.key'
 
 #服务器上的ruby版本以及gemset名
 @gem_version = 'ruby-2.3.0@polyhome'
@@ -20,12 +21,12 @@ append :linked_files, ['config/database.yml','config/secrets.yml']
 # 正式服
 # @sever_host, @branch =  %w(101.201.76.220 release)
 # 测试服
-@sever_host, @branch = %w(60.205.151.71 develop)
+@sever_host, @branch = %w(60.205.151.71 master)
 
 #进行参数设置
 set :deploy_to, @complete_app_dir  #部署的服务器的路径。默认是 { "/var/www/#{fetch(:application)}" }
 set :application, @app_dir         #部署到的服务器的项目名
-set :scm, :git                     #配置源码管理工具。目前支持 :git 、:hg 、 :svn，默认是：git
+# set :scm, :git                   #配置源码管理工具,在Capfile中引入即可，这里不建议引入否则会提醒。目前支持 :git 、:hg 、 :svn，默认是：git
 set :repo_url, @repo_url           #部署的仓库的地址配置
 set :branch, @branch               #仓库的分支，默认是master
 set :pty, false                    #是否使用SSHKit 详见 https://github.com/capistrano/sshkit/

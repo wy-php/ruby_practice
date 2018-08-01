@@ -1,0 +1,11 @@
+base: &base
+  host: 127.0.0.1
+  password:
+
+development: &development
+  <<: *base
+  port: 6379
+
+production:
+  <<: *base
+  port: 6379

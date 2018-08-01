@@ -49,13 +49,15 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-# server "example.com",
-#   user: "user_name",
-#   roles: %w{web app},
-#   ssh_options: {
-#     user: "user_name", # overrides user setting above
-#     keys: %w(/home/user_name/.ssh/id_rsa),
-#     forward_agent: false,
-#     auth_methods: %w(publickey password)
-#     # password: "please use keys"
-#   }
+server "60.205.151.71",
+  user: "live",
+  roles: %w{web app}
+set :rails_env, "production"
+set :stage, :production
+  # ssh_options: {
+  #   user: "user_name", # overrides user setting above
+  #   keys: %w(/home/user_name/.ssh/id_rsa),
+  #   forward_agent: false,
+  #   auth_methods: %w(publickey password)
+  #   # password: "please use keys"
+  # }
