@@ -1,7 +1,9 @@
 source 'https://gems.ruby-china.org'
+#禁止提醒更新ruby版本
+ENV['RUBY_DEP_GEM_SILENCE_WARNINGS'] = '1'
 # ﻿gem 'nokogiri', :git => 'git://github.com/tenderlove/nokogiri.git' #从git代码库引入
 # gem 'nokogiri', :github => 'tenderlove/nokogiri' #指定github上的路径
-# 这行代码应该就是为了让github合法吧！
+# 这行代码应该就是为了让github命令合法
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.3.0'
@@ -57,7 +59,11 @@ group :development do
   gem 'pry'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'capistrano'
+  gem 'capistrano', "~> 3.11", require: false
+  gem 'capistrano-rvm', require: false
+  gem "capistrano-rails", "~> 1.4", require: false
+  gem 'capistrano-bundler', '~> 1.3', require: false
+
   gem 'awesome_print'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
