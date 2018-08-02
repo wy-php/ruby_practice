@@ -3,8 +3,8 @@ lock "~> 3.11.0"
 
 #在部署期间，列出的文件夹将从应用程序的共享文件夹中链接到每个发布目录。
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
-#在部署期间，列出的文件将从应用程序的共享文件夹中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件。
-#注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml
+#在部署期间，列出的文件将从应用程序的共享文件夹中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件ls。
+#注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml,否则会报错。注意这些手动添加的配置中需要有对应的内容，否则也会报错
 append :linked_files, 'config/database.yml','config/redis.yml', 'config/config.yml', 'config/master.key'
 
 #服务器上的ruby版本以及gemset名
@@ -18,10 +18,10 @@ append :linked_files, 'config/database.yml','config/redis.yml', 'config/config.y
 # 服务器上部署的路径配置
 @app_dir = 'practice'
 @complete_app_dir = "/home/live/#{@app_dir}"
-# 正式服
-# @sever_host, @branch =  %w(101.201.76.220 release)
-# 测试服
-@sever_host, @branch = %w(60.205.151.71 master)
+
+#输入要发布的分支
+ask(:use_branch, 'master', echo: true)
+@branch = fetch(:use_branch)
 
 #进行参数设置
 set :deploy_to, @complete_app_dir  #部署的服务器的路径。默认是 { "/var/www/#{fetch(:application)}" }
@@ -30,7 +30,7 @@ set :application, @app_dir         #部署到的服务器的项目名
 set :repo_url, @repo_url           #部署的仓库的地址配置
 set :branch, @branch               #仓库的分支，默认是master
 set :pty, false                    #是否使用SSHKit 详见 https://github.com/capistrano/sshkit/
-set :log_level, :error             #使用SSHKit的时候，选择的日志的层级。还有:info, :warn，:error
+set :log_level, :debug             #使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
 set :keep_releases, 5              #保持最近多少次的部署，在服务器上是release文件夹中存在多少个对应的源码的文件夹。
 
 #格式化部署的时候显示的工具,设置其颜色以及保存的日志目录和字符宽度。在3.5以上的版本中 默认的

@@ -49,9 +49,11 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server "60.205.151.71",
-  user: "live",
-  roles: %w{web db app},
+set :rails_env, "production"
+set :stage, :production
+
+#配置要发布的服务器
+server "60.205.151.71", user: "live", roles: %w{web db app}
 #   ssh_options: {
 #     user: "live", # overrides user setting above
 #     keys: %w(/home/live/.ssh/id_rsa),

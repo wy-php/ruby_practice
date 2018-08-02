@@ -59,3 +59,8 @@
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
+set :rails_env, "production"
+set :stage, :staging
+
+#配置要发布的服务器
+server "123.57.139.200", user: "live", roles: %w{web db app}
