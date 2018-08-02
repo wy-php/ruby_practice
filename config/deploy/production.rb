@@ -51,13 +51,11 @@
 # ------------------------------------
 server "60.205.151.71",
   user: "live",
-  roles: %w{web app}
-set :rails_env, "production"
-set :stage, :production
-  # ssh_options: {
-  #   user: "user_name", # overrides user setting above
-  #   keys: %w(/home/user_name/.ssh/id_rsa),
-  #   forward_agent: false,
-  #   auth_methods: %w(publickey password)
-  #   # password: "please use keys"
-  # }
+  roles: %w{web db app},
+#   ssh_options: {
+#     user: "live", # overrides user setting above
+#     keys: %w(/home/live/.ssh/id_rsa),
+#     forward_agent: false,
+#     auth_methods: %w(publickey)
+#     password: "please use keys"
+#   }

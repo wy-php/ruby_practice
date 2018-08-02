@@ -30,7 +30,7 @@ set :application, @app_dir         #部署到的服务器的项目名
 set :repo_url, @repo_url           #部署的仓库的地址配置
 set :branch, @branch               #仓库的分支，默认是master
 set :pty, false                    #是否使用SSHKit 详见 https://github.com/capistrano/sshkit/
-set :log_level, :debug             #使用SSHKit的时候，选择的日志的层级。还有:info, :warn，:error
+set :log_level, :error             #使用SSHKit的时候，选择的日志的层级。还有:info, :warn，:error
 set :keep_releases, 5              #保持最近多少次的部署，在服务器上是release文件夹中存在多少个对应的源码的文件夹。
 
 #格式化部署的时候显示的工具,设置其颜色以及保存的日志目录和字符宽度。在3.5以上的版本中 默认的
