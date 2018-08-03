@@ -1,4 +1,4 @@
-if Rails.env.development? || Rails.env.test?
+if Rails.env.development? || Rails.env.production?
   namespace :practice do
     desc "this is a test code"
 

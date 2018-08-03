@@ -64,6 +64,13 @@ set :releases_directory, "releases"
 #设置指向当前最新成功部署发布文件夹的当前链接的名称。默认: current
 set :current_directory, "current"
 
+#执行deploy之后要执行的操作
+after 'deploy', 'deploy:migrate'
+after 'deploy', 'assets:precompile'
+after 'deploy', 'whenever:update'
+
+#设置
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

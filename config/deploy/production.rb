@@ -53,7 +53,7 @@ set :rails_env, "production"
 set :stage, :production
 
 #配置要发布的服务器
-server "60.205.151.71", user: "live", roles: %w{web db app}
+server "60.205.151.71", user: "live", roles: %w{web db}
 #   ssh_options: {
 #     user: "live", # overrides user setting above
 #     keys: %w(/home/live/.ssh/id_rsa),
