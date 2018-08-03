@@ -29,14 +29,14 @@ end
 
 
 ﻿#这个只运行在值为:app的roles的服务器中
-every :﻿minute, at: '1:37pm', roles: [:app] do
-  rake 'app:task' # will only be added to crontabs of :app servers
+every :﻿minute, roles: [:app] do
+  command "echo '每分钟运行的，在roles角色为：app下进行的'"
 end
 #这个只运行在值为:db的roles的服务器中
-every :hour, roles: [:db] do
-  rake 'db:task' # will only be added to crontabs of :db servers
+every :﻿minute, roles: [:db] do
+  command "echo '每分钟运行的，在roles角色为：db下进行的'"
 end
 #这个只运行在任何roles的服务器中
-every :day, at: '12:02am' do
-  command "run_this_everywhere" # will be deployed to :db and :app servers
+every :minute do
+  command "echo '每分钟运行的'"
 end
