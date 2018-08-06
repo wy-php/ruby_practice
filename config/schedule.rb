@@ -26,12 +26,12 @@ every '* * * * *' do
   command "ruby '/Users/poly/www/ruby/practice/test.rb'"
 end
 
-every :day, at: '1:37pm', roles: [:app] do
+every :day, at: '1:37pm', roles: [:web] do
   command "echo '每分钟运行的，在roles角色为：app下进行的'"
 end
 
 every 1.minute, roles: [:db] do
-  command "echo '每分钟运行的，在roles角色为：db下进行的'"
+  command "echo '每分钟运行的，在roles角色为：db下进行的。'"
 end
 
 every 1.minute do

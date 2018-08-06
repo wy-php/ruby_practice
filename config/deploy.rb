@@ -64,11 +64,12 @@ set :releases_directory, "releases"
 #设置指向当前最新成功部署发布文件夹的当前链接的名称。默认: current
 set :current_directory, "current"
 
+#capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
 
-#capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
-set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 
 # Default branch is :master
