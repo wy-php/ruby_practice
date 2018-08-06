@@ -18,6 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+env :PATH, ENV['PATH']
 set :output, "log/cron_log.log"
 
 every '* * * * *' do
@@ -27,7 +28,7 @@ every '* * * * *' do
 end
 
 every :day, at: '1:37pm', roles: [:web] do
-  command "echo '每分钟运行的，在roles角色为：web下进行的'"
+  command "echo '每天运行的，在roles角色为：web下进行的'"
 end
 
 every 1.minute, roles: [:db] do
