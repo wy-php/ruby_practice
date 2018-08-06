@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 env :PATH, ENV['PATH']
+env :GEM_PATH, ENV['GEM_PATH']
+env :GEM_HOME, ENV['GEM_HOME']
 set :output, "log/cron_log.log"
 
 every '* * * * *' do

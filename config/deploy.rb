@@ -71,6 +71,8 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
 
+
+puts ENV
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
