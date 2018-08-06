@@ -25,16 +25,15 @@ every '* * * * *' do
   command "echo 'you can use raw cron syntax too'"
   command "ruby '/Users/poly/www/ruby/practice/test.rb'"
 end
-case @environment
-when 'production'
-  every :day, at: '1:37pm', roles: [:web] do
-    command "echo '每分钟运行的，在roles角色为：web下进行的'"
-  end
-when 'staging'
-  every 1.minute, roles: [:db] do
-    command "echo '每分钟运行的，在roles角色为：db下进行的。'"
-  end
+
+every :day, at: '1:37pm', roles: [:web] do
+  command "echo '每分钟运行的，在roles角色为：web下进行的'"
 end
+
+every 1.minute, roles: [:db] do
+  command "echo '每分钟运行的，在roles角色为：db下进行的。'"
+end
+
 every 1.minute do
   command "echo '每分钟运行的'"
 end
