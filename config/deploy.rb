@@ -70,7 +70,7 @@ namespace :whenever do
   @stage = fetch(:stage)
   puts @stage
   task 'set_env' do
-    run "cd #{current_path} && bundle exec whenever -s environment=#{@stage}"
+    info "#{current_path} is writable on #{@stage}"
   end
 end
 
