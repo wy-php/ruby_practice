@@ -18,7 +18,6 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-
 set :output, "/Users/poly/www/ruby/practice/log/cron_log.log"
 
 every '* * * * *' do
@@ -27,16 +26,14 @@ every '* * * * *' do
   command "ruby '/Users/poly/www/ruby/practice/test.rb'"
 end
 
-
-﻿#这个只运行在值为:app的roles的服务器中
-every :﻿minute, roles: [:app] do
+every :day, at: '1:37pm', roles: [:app] do
   command "echo '每分钟运行的，在roles角色为：app下进行的'"
 end
-#这个只运行在值为:db的roles的服务器中
-every :﻿minute, roles: [:db] do
+
+every 1.minute, roles: [:db] do
   command "echo '每分钟运行的，在roles角色为：db下进行的'"
 end
-#这个只运行在任何roles的服务器中
-every :minute do
+
+every 1.minute do
   command "echo '每分钟运行的'"
 end
