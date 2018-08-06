@@ -2,6 +2,7 @@
 lock "~> 3.11.0"
 
 #在部署期间，列出的文件夹将从应用程序的共享文件夹中链接到每个发布目录。
+# .bundle 文件也是会被设置在shared文件夹下的，该目录中有一个配置文件，配置所有的gem包的存放位置的，存放目录一般是shared/bundle/ruby/2.3.0/gems
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 #在部署期间，列出的文件将从应用程序的共享文件夹中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件ls。
 #注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml,否则会报错。注意这些手动添加的配置中需要有对应的内容，否则也会报错
@@ -64,13 +65,20 @@ set :releases_directory, "releases"
 #设置指向当前最新成功部署发布文件夹的当前链接的名称。默认: current
 set :current_directory, "current"
 
-#capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
-set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+namespace :whenever do
+  desc '设置默认的环境变量'
+  task 'set_env' do
+    run "cd #{current_path} && bundle exec whenever -s environment=#{fetch(stage)}"
+  end
+end
 
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
+after 'deploy', 'whenever:set_env'
 
 
+#capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
