@@ -18,7 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-set :output, "/Users/poly/www/ruby/practice/log/cron_log.log"
+set :output, "log/cron_log.log"
 
 every '* * * * *' do
   rake "practice:tests"
