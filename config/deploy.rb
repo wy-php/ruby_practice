@@ -68,6 +68,7 @@ set :current_directory, "current"
 namespace :whenever do
   desc '设置默认的环境变量'
   @stage = fetch(:stage)
+  Rails.logger.info "-----------#{@stage}------------"
   task 'set_env' do
     run "cd #{current_path} && bundle exec whenever -s environment=#{@stage}"
   end
