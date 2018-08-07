@@ -24,7 +24,7 @@ set :output, "log/cron_log.log"
 every '* * * * *' do
   rake "practice:tests"
   command "echo 'you can use raw cron syntax too'"
-  command "ruby '/Users/poly/www/ruby/practice/test.rb'"
+  command "ruby 'test.rb'"
 end
 
 every :day, at: '1:37pm', roles: [:web] do

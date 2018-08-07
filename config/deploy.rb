@@ -70,61 +70,36 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
-after 'deploy', 'unicorn:start'
+after 'deploy', 'cap_unicorn:start'
 
-puts current_path
-#配置deploy驱动unicorn
-namespace :unicorn do
-  desc '启动服务器'
-  task :start, :roles => :app do
-    run "cd #{current_path} && bundle exec unicorn -c #{current_path}/config/unicorn.rb -D -E production"
+
+# 在unicorn中设置了 preload_app:true 的话，使用该启动方式
+# namespace :deploy do
+#   task :restart do
+#     invoke 'unicorn:restart'
+#   end
+# end
+
+# 如果在unicorn中设置了 preload_app:true 的话，使用该重启方式可以清除旧的pid
+namespace :cap_unicorn do
+  task :restart do
+    invoke 'unicorn:legacy_restart'
   end
 
-  desc '停止服务器'
-  task :stop, :roles => :app do
-    run "cd #{current_path} && ./sidekiq stop"
-    run "if [ -f #{unicorn_pid} ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
-    sleep(3)
-  end
-
-  desc '重启服务器'
-  task :restart, :roles => :app do
-    run "if [ -f #{unicorn_pid} ]; then kill -s USR2 `cat #{unicorn_pid}`; fi"
+  task :start do
+    invoke 'unicorn:start'
   end
 end
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, "/var/www/my_app_name"
+# 除了以上两种情况外，使用该启动方式
+# namespace :deploy do
+#   task :restart do
+#     invoke 'unicorn:reload'
+#   end
+# end
 
-# Default value for :format is :airbrussh.
-# set :format, :airbrussh
 
-# You can configure the Airbrussh format using :format_options.
-# These are the defaults.
-# set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
-
-# Default value for :pty is false
-# set :pty, true
-
-# Default value for :linked_files is []
-# append :linked_files, "config/database.yml"
-
-# Default value for linked_dirs is []
-# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
-
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
-# Default value for local_user is ENV['USER']
-# set :local_user, -> { `git config user.name`.chomp }
-
-# Default value for keep_releases is 5
-# set :keep_releases, 5
-
-# Uncomment the following to require manually verifying the host key before first deploy.
-# set :ssh_options, verify_host_key: :secure
+puts current_path
 
 
 

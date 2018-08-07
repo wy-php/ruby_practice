@@ -14,7 +14,7 @@ app_path = File.expand_path( File.join(File.dirname(__FILE__), '..', '..'))
 app_name = 'practice'
 app_folder = "#{app_path}/#{app_name}"
 log_folder = "#{app_folder}/shared/log"
-pids_folder = "#{app_folder}/shared/pids"
+pids_folder = "#{app_folder}/shared/tmp/pids"
 
 #工作进程设置。如果环境中没有设置就设置4个
 worker_processes Integer(ENV['UNICORN_WORKERS'] || 4)
