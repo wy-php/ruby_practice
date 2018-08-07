@@ -73,6 +73,6 @@ set :rbenv_map_bins, %w{rake gem bundle ruby rails sidekiq sidekiqctl}
 #执行deploy中进行的操作
 
 namespace :deploy do
-  after "deploy:﻿started", "deploy:migrate"
-  after "deploy:finished", "unicorn:restart"
+  after "﻿deploy:started", "deploy:migrate"
+  after "﻿deploy:finished", "unicorn:restart"
 end
