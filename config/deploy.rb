@@ -68,11 +68,11 @@ set :current_directory, "current"
 #capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
+# sidekiq用的配置
+set :rbenv_map_bins, %w{rake gem bundle ruby rails sidekiq sidekiqctl}
 #执行deploy中进行的操作
-after 'deploy', 'deploy:restart'
-namespace :deploy do
-  task :restart do
-    invoke 'unicorn:legacy_restart'
-  end
 
+namespace :deploy do
+  after "deploy:﻿started", "deploy:migrate"
+  after "deploy:finished", "unicorn:restart"
 end
