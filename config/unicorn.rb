@@ -44,6 +44,7 @@ stdout_path "#{log_folder}/unicorn.log"
 # 修正无缝重启unicorn后更新的Gem未生效的问题，原因是config/boot.rb会优先从ENV中获取BUNDLE_GEMFILE，
 # 而无缝重启时ENV['BUNDLE_GEMFILE']的值并未被清除，仍指向旧目录的Gemfile
 before_exec do |server|
+  puts Rails.root
   ENV['BUNDLE_GEMFILE'] = "#{Rails.root}/Gemfile"
 end
 # Since Unicorn is never exposed to outside clients, it does not need to

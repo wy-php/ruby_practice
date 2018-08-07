@@ -72,7 +72,6 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'unicorn:start'
 
-puts Rails.root
 puts current_path
 #配置deploy驱动unicorn
 namespace :unicorn do
