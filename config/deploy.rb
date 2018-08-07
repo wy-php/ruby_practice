@@ -69,12 +69,10 @@ set :current_directory, "current"
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 #执行deploy中进行的操作
+after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
-  after :deploy, :﻿finished do
-    invoke "unicorn:start"
+  task :restart do
+    invoke 'unicorn:legacy_restart'
   end
 
-  after :deploy, :﻿started do
-    invoke "deploy:migrate"
-  end
 end
