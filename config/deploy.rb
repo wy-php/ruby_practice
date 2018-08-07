@@ -70,33 +70,7 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
-after 'deploy', 'cap_unicorn:start'
-
-
-# 在unicorn中设置了 preload_app:true 的话，使用该启动方式
-# namespace :deploy do
-#   task :restart do
-#     invoke 'unicorn:restart'
-#   end
-# end
-
-# 如果在unicorn中设置了 preload_app:true 的话，使用该重启方式可以清除旧的pid
-namespace :cap_unicorn do
-  task :restart do
-    invoke 'unicorn:legacy_restart'
-  end
-
-  task :start do
-    invoke 'unicorn:start'
-  end
-end
-
-# 除了以上两种情况外，使用该启动方式
-# namespace :deploy do
-#   task :restart do
-#     invoke 'unicorn:reload'
-#   end
-# end
+after 'deploy', 'unicorn:restart'
 
 
 puts current_path
