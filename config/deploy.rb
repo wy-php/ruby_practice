@@ -70,9 +70,29 @@ set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 #执行deploy之后要执行的操作
 after 'deploy', 'deploy:migrate'
+after 'deploy', 'unicorn:start'
 
+puts Rails.root
+puts current_path
+#配置deploy驱动unicorn
+namespace :unicorn do
+  desc '启动服务器'
+  task :start, :roles => :app do
+    run "cd #{current_path} && bundle exec unicorn -c #{current_path}/config/unicorn.rb -D -E production"
+  end
 
-puts ENV
+  desc '停止服务器'
+  task :stop, :roles => :app do
+    run "cd #{current_path} && ./sidekiq stop"
+    run "if [ -f #{unicorn_pid} ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
+    sleep(3)
+  end
+
+  desc '重启服务器'
+  task :restart, :roles => :app do
+    run "if [ -f #{unicorn_pid} ]; then kill -s USR2 `cat #{unicorn_pid}`; fi"
+  end
+end
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
