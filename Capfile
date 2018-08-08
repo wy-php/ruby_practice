@@ -35,6 +35,7 @@ require "capistrano/rails/migrations"
 require "whenever/capistrano"
 require 'capistrano3/unicorn'
 require 'capistrano/sidekiq'
+require 'capistrano/sidekiq/monit'
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined

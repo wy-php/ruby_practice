@@ -69,10 +69,11 @@ set :current_directory, "current"
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 # sidekiq用的配置
-set :rbenv_map_bins, %w{rake gem bundle ruby rails sidekiq sidekiqctl}
-#执行deploy中进行的操作
+SSHKit.config.command_map[:sidekiq] = "bundle exec sidekiq"
+SSHKit.config.command_map[:sidekiqctl] = "bundle exec sidekiqctl"
 
+#执行deploy中进行的操作
 namespace :deploy do
-  after "﻿deploy:started", "deploy:migrate"
-  after "﻿deploy:finished", "unicorn:restart"
+  after 'deploy:publishing', 'deploy:migrate'
+  after 'deploy:publishing', 'unicorn:start'
 end
