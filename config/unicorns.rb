@@ -13,8 +13,8 @@
 app_path = File.expand_path( File.join(File.dirname(__FILE__), '..', '..'))
 app_name = 'practice'
 app_folder = "#{app_path}/#{app_name}"
-log_folder = "#{app_folder}/shared/log"
-pids_folder = "#{app_folder}/shared/tmp/pids"
+log_folder = "#{app_folder}/log"
+pids_folder = "#{app_folder}/tmp/pids"
 
 #工作进程设置。如果环境中没有设置就设置4个
 worker_processes Integer(ENV['UNICORN_WORKERS'] || 4)
@@ -26,7 +26,6 @@ working_directory app_folder
 preload_app true
 
 #unicorn监听的端口号，这里使用一个backlog以便在繁忙时进行更快的进行故障转移。
-listen "tmp/to/.unicorn.sock", :backlog => 64
 listen 8074, :tcp_nopush => true
 
 #超时时间
@@ -46,7 +45,7 @@ stdout_path "#{log_folder}/unicorn.log"
 before_exec do |server|
   puts app_folder
   #注意这个需要deploy.rb中的配置是。 set :current_directory, "current"
-  ENV['BUNDLE_GEMFILE'] = "#{app_folder}/current/Gemfile"
+  ENV['BUNDLE_GEMFILE'] = "#{app_folder}/Gemfile"
 end
 # Since Unicorn is never exposed to outside clients, it does not need to
 # run on the standard HTTP port (80), there is no reason to start Unicorn
