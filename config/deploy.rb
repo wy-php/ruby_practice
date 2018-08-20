@@ -9,7 +9,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 append :linked_files, 'config/database.yml','config/redis.yml', 'config/config.yml', 'config/master.key'
 
 #服务器上的ruby版本以及gemset名
-@gem_version = 'ruby-2.3.0@polyhome'
+@gem_version = 'ruby-2.3.0@practice'
 
 #项目仓库配置
 @project_name = "ruby_practice"
@@ -21,8 +21,9 @@ append :linked_files, 'config/database.yml','config/redis.yml', 'config/config.y
 @complete_app_dir = "/home/live/#{@app_dir}"
 
 #输入要发布的分支
-ask(:use_branch, 'master', echo: true)
-@branch = fetch(:use_branch)
+# ask(:use_branch, 'master', echo: true)
+# @branch = fetch(:use_branch)
+@branch = 'master'
 
 #进行参数设置
 set :deploy_to, @complete_app_dir  #部署的服务器的路径。默认是 { "/var/www/#{fetch(:application)}" }
@@ -32,13 +33,13 @@ set :repo_url, @repo_url           #部署的仓库的地址配置
 set :branch, @branch               #仓库的分支，默认是master
 set :pty, false                    #是否使用SSHKit 详见 https://github.com/capistrano/sshkit/
 set :log_level, :debug             #使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
+set :format, :pretty               #还有其他的变量 :dot和 :pretty,使用airbrussh的时候打印的是:warn or :error，使用:dot或者:pretty打印配置的。
 set :keep_releases, 5              #保持最近多少次的部署，在服务器上是release文件夹中存在多少个对应的源码的文件夹。
 
 #设置release的目录格式
 set :release_name, Time.now.strftime('%Y%m%d%H%M%S')
 
 #格式化部署的时候显示的工具,设置其颜色以及保存的日志目录和字符宽度。在3.5以上的版本中 默认的
-set :format, :airbrussh
 set :format_options, color: false, truncate: 80, log_file: "log/capistrano.log", command_output: true
 
 #配置rvm的ruby版本以及gemset
@@ -78,6 +79,6 @@ set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
-    invoke 'unicorn:restart'
+    invoke 'unicorn:start'
   end
 end
