@@ -20,6 +20,7 @@ pids_folder = "#{app_folder}/shared/tmp/pids"
 worker_processes Integer(ENV['UNICORN_WORKERS'] || 4)
 
 #设置工作目录，这里设置项目的根目录
+p "app_folder：#{app_folder}"
 working_directory app_folder
 
 #预加载程序，以节省内存。
@@ -44,7 +45,6 @@ stdout_path "#{log_folder}/unicorn.log"
 # 修正无缝重启unicorn后更新的Gem未生效的问题，原因是config/boot.rb会优先从ENV中获取BUNDLE_GEMFILE，
 # 而无缝重启时ENV['BUNDLE_GEMFILE']的值并未被清除，仍指向旧目录的Gemfile
 before_exec do |server|
-  puts app_folder
   #注意这个需要deploy.rb中的配置是。 set :current_directory, "current"
   ENV['BUNDLE_GEMFILE'] = "#{app_folder}/current/Gemfile"
 end

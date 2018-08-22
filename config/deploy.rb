@@ -32,9 +32,12 @@ set :application, @app_dir         #部署到的服务器的项目名
 set :repo_url, @repo_url           #部署的仓库的地址配置
 set :branch, @branch               #仓库的分支，默认是master
 set :pty, false                    #是否使用SSHKit 详见 https://github.com/capistrano/sshkit/
-set :log_level, :debug             #使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
-set :format, :pretty               #还有其他的变量 :dot和 :pretty,使用airbrussh的时候打印的是:warn or :error，使用:dot或者:pretty打印配置的。
+set :log_level, :info              #使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
+set :format, :airbrussh            #还有其他的变量 :dot和 :pretty,使用airbrussh的时候打印的是:warn or :error，使用:dot或者:pretty打印配置的。
 set :keep_releases, 5              #保持最近多少次的部署，在服务器上是release文件夹中存在多少个对应的源码的文件夹。
+set :shared_directory, "shared"    #设置部署的服务器端的共享文件夹目录名。默认: shared
+set :releases_directory, "releases"#设置部署的服务器端的发布的文件夹目录名。默认: releases
+set :current_directory, "current"  #设置指向当前最新成功部署发布文件夹的当前链接的名称。默认: current
 
 #设置release的目录格式
 set :release_name, Time.now.strftime('%Y%m%d%H%M%S')
@@ -60,15 +63,6 @@ set :normalize_asset_timestamps, %w{public/images public/javascripts public/styl
 #设置编译的静态资源角色
 set :assets_roles, [:web, :app]
 
-#设置部署的服务器端的共享文件夹目录名。默认: shared
-set :shared_directory, "shared"
-
-#设置部署的服务器端的发布的文件夹目录名。默认: releases
-set :releases_directory, "releases"
-
-#设置指向当前最新成功部署发布文件夹的当前链接的名称。默认: current
-set :current_directory, "current"
-
 #capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
@@ -79,6 +73,6 @@ set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do
-    invoke 'unicorn:start'
+    invoke 'deploy:migrate'
   end
 end
